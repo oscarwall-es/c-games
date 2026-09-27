@@ -4,10 +4,17 @@ export const CENTER = 0.5;
 export const ZONE_WIDTH = 0.18; // Gröna zonen, andel av stapeln
 export const PERFECT_MARGIN = 0.02; // ± kring mitten som räknas som perfekt
 
-// Fart i stapelbredder per sekund
-export const BASE_SPEED = 0.6;
-export const SPEED_STEP = 0.12;
-export const MAX_SPEED = 1.8;
+// Nivåer: en perfekt träff tar spelaren upp en nivå, upp till MAX_LEVEL.
+export const MAX_LEVEL = 20;
+
+// Fart i stapelbredder per sekund. Nivå 1–11 ökar med 0.12 per nivå
+// (0.6 → 1.8). Därefter ökar den långsammare, 0.05 per nivå (→ 2.25 på
+// nivå 20), eftersom den perfekta randen annars passeras snabbare än en
+// skärmuppdatering och blir omöjlig att träffa.
+const BASE_SPEED = 0.6;
+const EARLY_STEP = 0.12;
+const LATE_STEP = 0.05;
+const STEP_CHANGE_LEVEL = 11;
 
 export const RESULTS = {
   perfect: { coins: 15, text: '🎯 Perfekt! +15 C Coins' },
@@ -15,9 +22,15 @@ export const RESULTS = {
   miss: { coins: 0, text: '😬 Nästan! Inga mynt den här gången' },
 };
 
-// Farten ökar för varje perfekt träff, upp till MAX_SPEED.
-export function speedFor(perfects) {
-  return Math.min(MAX_SPEED, BASE_SPEED + perfects * SPEED_STEP);
+export function clampLevel(level) {
+  return Math.min(MAX_LEVEL, Math.max(1, Math.floor(level) || 1));
+}
+
+export function speedForLevel(level) {
+  const lvl = clampLevel(level);
+  const early = Math.min(lvl, STEP_CHANGE_LEVEL) - 1;
+  const late = Math.max(0, lvl - STEP_CHANGE_LEVEL);
+  return BASE_SPEED + early * EARLY_STEP + late * LATE_STEP;
 }
 
 // Flyttar markören `dt` sekunder framåt och studsar mot kanterna.

@@ -1,12 +1,12 @@
-import { getState, addCoins, setHighscore } from '../state.js';
+import { getState, addCoins, setHighscore, setProgress } from '../state.js';
 import {
   CENTER,
   ZONE_WIDTH,
   PERFECT_MARGIN,
   RESULTS,
-  BASE_SPEED,
-  SPEED_STEP,
-  speedFor,
+  MAX_LEVEL,
+  clampLevel,
+  speedForLevel,
   advance,
   judge,
 } from '../games/perfectHit.js';
@@ -15,8 +15,8 @@ const HINT = 'Tryck när den blå pricken är mitt i det gröna!';
 const MAX_DT = 0.05; // Undvik stora hopp om fliken legat i bakgrunden
 
 export function renderPerfectHit(container) {
-  // Farten och antal perfekta träffar gäller bara så länge skärmen visas.
-  let perfects = 0;
+  // Nivån (och därmed farten) sparas, så den finns kvar nästa gång.
+  let level = clampLevel(getState().progress.perfectHitLevel);
   let position = 0;
   let direction = 1;
   let running = false;
@@ -39,7 +39,8 @@ export function renderPerfectHit(container) {
     </div>
     <p class="ph__result" role="status"></p>
     <button class="ph__hit">TRYCK!</button>
-    <button class="ph__again">🔄 Igen</button>`;
+    <button class="ph__again">🔄 Igen</button>
+    <button class="ph__reset" type="button">↩️ Börja om från nivå 1</button>`;
 
   const speedEl = root.querySelector('.ph__speed');
   const recordEl = root.querySelector('.ph__record');
@@ -47,6 +48,7 @@ export function renderPerfectHit(container) {
   const resultEl = root.querySelector('.ph__result');
   const hitBtn = root.querySelector('.ph__hit');
   const againBtn = root.querySelector('.ph__again');
+  const resetBtn = root.querySelector('.ph__reset');
 
   // Zonerna ritas utifrån samma konstanter som används för att bedöma träffen.
   const zone = root.querySelector('.ph__zone');
@@ -57,9 +59,9 @@ export function renderPerfectHit(container) {
   perfectEl.style.width = `${PERFECT_MARGIN * 2 * 100}%`;
 
   function drawInfo() {
-    const level = Math.round((speedFor(perfects) - BASE_SPEED) / SPEED_STEP) + 1;
-    speedEl.textContent = `⚡ Fart ${level} · 🎯 ${perfects}`;
-    recordEl.textContent = `🏆 Rekord: ${getState().highscores.perfectHit} 🎯`;
+    speedEl.textContent = level === MAX_LEVEL ? `⚡ Nivå ${level} (max!)` : `⚡ Nivå ${level} av ${MAX_LEVEL}`;
+    recordEl.textContent = `🏆 Rekord: nivå ${Math.max(level, getState().highscores.perfectHit)}`;
+    resetBtn.hidden = level === 1;
   }
 
   function drawMarker() {
@@ -74,7 +76,7 @@ export function renderPerfectHit(container) {
   function tick(time) {
     if (lastTime !== null) {
       const dt = Math.min(MAX_DT, (time - lastTime) / 1000);
-      ({ position, direction } = advance(position, direction, speedFor(perfects), dt));
+      ({ position, direction } = advance(position, direction, speedForLevel(level), dt));
       drawMarker();
     }
     lastTime = time;
@@ -104,12 +106,15 @@ export function renderPerfectHit(container) {
     const result = judge(position);
     const { coins } = RESULTS[result];
     if (coins > 0) addCoins(coins);
-    if (result === 'perfect') {
-      perfects++;
-      // Rekordet är flest perfekta träffar under ett och samma besök på skärmen
-      setHighscore('perfectHit', perfects);
+    let text = RESULTS[result].text;
+    if (result === 'perfect' && level < MAX_LEVEL) {
+      level++;
+      setProgress('perfectHitLevel', level);
+      text += ` · Nivå ${level}!`;
     }
-    setResult(RESULTS[result].text, result);
+    // Rekordet är den högsta nivå spelaren har nått
+    setHighscore('perfectHit', level);
+    setResult(text, result);
     drawInfo();
     againBtn.focus({ preventScroll: true });
   }
@@ -125,6 +130,12 @@ export function renderPerfectHit(container) {
     if (event.detail === 0) hit();
   });
   againBtn.addEventListener('click', start);
+  resetBtn.addEventListener('click', () => {
+    level = 1;
+    setProgress('perfectHitLevel', level);
+    drawInfo();
+    start();
+  });
 
   // Mellanslag trycker TRYCK! eller Igen, beroende på läge
   function onKeyDown(event) {

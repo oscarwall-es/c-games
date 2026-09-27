@@ -875,8 +875,26 @@ body {
   box-shadow: none;
 }
 
+.ph__reset {
+  min-height: 44px;
+  padding: 0 16px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.ph__reset[hidden] {
+  display: none;
+}
+
 .ph__hit:focus-visible,
-.ph__again:focus-visible {
+.ph__again:focus-visible,
+.ph__reset:focus-visible {
   outline: 3px solid var(--accent-dark);
   outline-offset: 2px;
 }

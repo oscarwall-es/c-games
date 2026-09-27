@@ -9,6 +9,8 @@ function createDefaultState() {
     avatar: { hair: null, top: null, hat: null, glasses: null, accessory: null },
     inventory: [],
     highscores: { lava: 0, blockBlast: 0, perfectHit: 0, cOrd: 0 },
+    // Framsteg i spel som ska finnas kvar mellan besöken
+    progress: { perfectHitLevel: 1 },
   };
 }
 
@@ -31,6 +33,7 @@ export function loadState() {
     avatar: { ...defaults.avatar, ...saved.avatar },
     inventory: Array.isArray(saved.inventory) ? saved.inventory : defaults.inventory,
     highscores: { ...defaults.highscores, ...saved.highscores },
+    progress: { ...defaults.progress, ...saved.progress },
   };
   return state;
 }
@@ -67,6 +70,12 @@ export function setHighscore(game, score) {
   state.highscores[game] = score;
   saveState();
   return true;
+}
+
+export function setProgress(key, value) {
+  if (state.progress[key] === value) return;
+  state.progress[key] = value;
+  saveState();
 }
 
 export function ownsItem(itemId) {
