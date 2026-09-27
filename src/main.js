@@ -1,11 +1,12 @@
 import './style.css';
-import { getState, subscribe } from './state.js';
+import { getState, STATE_CHANGED } from './state.js';
 import { initRouter } from './router.js';
 
 const coinEl = document.querySelector('#coin-count');
-const renderCoins = (state) => (coinEl.textContent = state.coins);
+const renderCoins = () => (coinEl.textContent = getState().coins);
 
-renderCoins(getState());
-subscribe(renderCoins);
+renderCoins();
+window.addEventListener(STATE_CHANGED, renderCoins);
 
 initRouter(document.querySelector('#screen'));
+
