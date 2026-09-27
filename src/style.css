@@ -738,3 +738,132 @@ body {
     max-width: max(320px, (100dvh - 610px) * 6 / 7);
   }
 }
+
+/* Perfect Hit */
+.ph {
+  --marker: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ph__info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 800;
+}
+
+.ph__record {
+  color: #b7791f;
+}
+
+.ph__bar {
+  width: 100%;
+  height: 64px;
+  padding: 0 calc(var(--marker) / 2);
+  border-radius: 999px;
+  background: #e2ddd7;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Spåret är smalare än stapeln så att markören aldrig sticker ut */
+.ph__track {
+  position: relative;
+  height: 100%;
+}
+
+.ph__zone {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  border-radius: 8px;
+  background: #7ed283;
+}
+
+.ph__perfect {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  border-radius: 4px;
+  background: #2e9e45;
+}
+
+.ph__marker {
+  position: absolute;
+  top: 50%;
+  width: var(--marker);
+  height: var(--marker);
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: #2f7fd8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+  will-change: left;
+}
+
+.ph__result {
+  margin: 0;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--card);
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.ph__result--perfect { background: #dff5e1; color: #2e7d32; }
+.ph__result--good { background: #e3efff; color: #1f5fa8; }
+.ph__result--miss { background: #fff1d6; color: #9a5b00; }
+
+.ph__hit,
+.ph__again {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 800;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.08s ease, opacity 0.15s ease;
+}
+
+.ph__hit {
+  min-height: 110px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.ph__again {
+  min-height: 56px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 1.2rem;
+}
+
+.ph__hit:active:not(:disabled),
+.ph__again:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.ph__hit:disabled,
+.ph__again:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+}
+
+.ph__hit:focus-visible,
+.ph__again:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}

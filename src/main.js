@@ -5,6 +5,7 @@ import { renderHome } from './screens/home.js';
 import { renderShop } from './screens/shop.js';
 import { renderLava } from './screens/lava.js';
 import { renderBlockBlast } from './screens/blockBlast.js';
+import { renderPerfectHit } from './screens/perfectHit.js';
 import { comingSoon } from './screens/comingSoon.js';
 
 const coinEl = document.querySelector('#coin-count');
@@ -16,7 +17,7 @@ window.addEventListener(STATE_CHANGED, renderCoins);
 registerRoute('hem', renderHome);
 registerRoute('lava', renderLava);
 registerRoute('blockblast', renderBlockBlast);
-registerRoute('perfecthit', comingSoon('🎯 Perfect Hit'));
+registerRoute('perfecthit', renderPerfectHit);
 registerRoute('cord', comingSoon('🔤 C-Ord'));
 registerRoute('shop', renderShop);
 
