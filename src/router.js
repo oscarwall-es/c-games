@@ -1,4 +1,6 @@
-// Minimal router: visar en skärm i innehållsområdet och markerar aktiv menyknapp.
+// Hash-router: visar skärmen som matchar window.location.hash (t.ex. #lava)
+// i innehållsområdet och markerar aktiv menyknapp. Okända hashar går till DEFAULT_ROUTE.
+const DEFAULT_ROUTE = 'hem';
 const routes = {};
 let container = null;
 
@@ -11,18 +13,29 @@ export function initRouter(screenEl) {
   document.querySelectorAll('[data-route]').forEach((btn) => {
     btn.addEventListener('click', () => navigate(btn.dataset.route));
   });
+  window.addEventListener('hashchange', renderCurrent);
+  renderCurrent();
 }
 
 export function navigate(name) {
+  // Sätter bara hashen – 'hashchange' sköter själva renderingen.
+  window.location.hash = name;
+}
+
+function renderCurrent() {
+  const name = window.location.hash.slice(1);
+  if (!routes[name]) {
+    // Byt ut ogiltig/tom hash utan att lägga till ett extra steg i historiken
+    history.replaceState(null, '', `#${DEFAULT_ROUTE}`);
+    return renderCurrent();
+  }
+
   document.querySelectorAll('[data-route]').forEach((btn) => {
-    btn.classList.toggle('is-active', btn.dataset.route === name);
+    const active = btn.dataset.route === name;
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-current', active ? 'page' : 'false');
   });
 
   container.innerHTML = '';
-  const render = routes[name];
-  if (render) {
-    render(container);
-  } else {
-    container.innerHTML = '<p class="placeholder">Välj ett spel!</p>';
-  }
+  routes[name](container);
 }

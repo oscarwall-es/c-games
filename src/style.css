@@ -94,6 +94,7 @@ body {
 .menu__btn.is-active {
   background: var(--accent);
   color: #fff;
+  box-shadow: 0 0 0 3px var(--card), 0 0 0 6px var(--accent);
 }
 
 .menu__btn--wide {
@@ -104,6 +105,7 @@ body {
 
 .menu__btn--wide.is-active {
   background: var(--accent-dark);
+  box-shadow: 0 0 0 3px var(--card), 0 0 0 6px var(--accent-dark);
 }
 
 .menu__btn:focus-visible {
@@ -121,8 +123,6 @@ body {
   min-height: 280px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .placeholder {
@@ -130,5 +130,129 @@ body {
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--muted);
+  text-align: center;
+}
+
+/* Platshållarskärm */
+.coming-soon {
+  margin: auto;
+  text-align: center;
+}
+
+.coming-soon__title {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+}
+
+/* Hemskärm */
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 16px 16px;
+}
+
+.home__greeting {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+/* Avatar: lager staplade ovanpå varandra. Varje slot placeras via sin klass. */
+.avatar {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 16px; /* plats för tröjan som sticker ut nedtill */
+  font-size: 88px;
+  line-height: 1;
+}
+
+.avatar__layer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.avatar__top {
+  top: 92%;
+  font-size: 0.5em;
+}
+
+.avatar__hair {
+  top: 20%;
+  font-size: 0.55em;
+}
+
+.avatar__glasses {
+  top: 46%;
+  font-size: 0.42em;
+}
+
+.avatar__hat {
+  top: 6%;
+  font-size: 0.5em;
+}
+
+.avatar__accessory {
+  left: 92%;
+  top: 70%;
+  font-size: 0.35em;
+}
+
+/* Spelkort */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 130px;
+  padding: 16px 8px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  touch-action: manipulation;
+}
+
+.game-card:active {
+  transform: scale(0.96);
+  box-shadow: var(--shadow-press);
+}
+
+.game-card:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+.game-card__emoji {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.game-card__name {
+  font-size: 1.15rem;
+  font-weight: 800;
   text-align: center;
 }
