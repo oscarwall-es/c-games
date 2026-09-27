@@ -28,7 +28,7 @@ body {
 }
 
 .app {
-  max-width: 480px;
+  max-width: 480px; /* Telefonbredd; växer på surfplatta/dator, se nedan */
   margin: 0 auto;
   min-height: 100vh;
   padding: 16px;
@@ -36,6 +36,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .app {
+    max-width: 700px;
+  }
 }
 
 /* Topprad */
@@ -111,6 +117,17 @@ body {
 .menu__btn:focus-visible {
   outline: 3px solid var(--accent-dark);
   outline-offset: 2px;
+}
+
+/* Bredare skärmar: menyn på två rader (3 + 3) för att spara höjd åt spelbrädena */
+@media (min-width: 600px) {
+  .menu {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .menu__btn--wide {
+    grid-column: auto;
+  }
 }
 
 /* Innehållsområde */
@@ -417,6 +434,7 @@ body {
 
 .lava__board {
   width: 100%;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(var(--cols), 1fr);
   gap: 6px;
@@ -496,4 +514,227 @@ body {
 .lava__restart:focus-visible {
   outline: 3px solid var(--accent-dark);
   outline-offset: 2px;
+}
+
+/* Block Blast */
+.bb {
+  --mini: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.bb--blue { background: #4a90d9; }
+.bb--green { background: #52b863; }
+.bb--yellow { background: #f2c230; }
+.bb--purple { background: #9b6bd6; }
+.bb--red { background: #e5534b; }
+
+.bb__info {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 800;
+}
+
+.bb__score {
+  font-size: 1.3rem;
+}
+
+.bb__record {
+  color: #b7791f;
+  align-self: center;
+}
+
+.bb__message {
+  margin: 0;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--card);
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.bb__message--bad { background: #ffe1e1; color: #b3261e; }
+.bb__message--good { background: #dff5e1; color: #2e7d32; }
+.bb__message--info { background: #e3efff; color: #1f5fa8; }
+
+.bb__board-wrap {
+  position: relative;
+}
+
+.bb__board {
+  display: grid;
+  grid-template-columns: repeat(var(--size), 1fr);
+  gap: 4px;
+  padding: 8px;
+  border-radius: var(--radius);
+  background: #d9d3cc;
+  touch-action: manipulation;
+}
+
+.bb__board.is-shaking {
+  animation: bb-shake 0.35s ease;
+}
+
+@keyframes bb-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+.bb__cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: #f4f1ed;
+  cursor: pointer;
+}
+
+.bb__cell--filled {
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.bb__cell--preview {
+  background: #b8e3bd;
+}
+
+.bb__cell--preview-bad {
+  background: #f5a3a3 !important;
+}
+
+.bb__cell--cleared {
+  animation: bb-clear 0.45s ease;
+}
+
+@keyframes bb-clear {
+  0% { background: #fff6b3; transform: scale(1.15); }
+  100% { background: #f4f1ed; transform: scale(1); }
+}
+
+.bb__over {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.88);
+  text-align: center;
+}
+
+.bb__over[hidden] {
+  display: none;
+}
+
+.bb__over-text {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.bb__restart {
+  min-height: 56px;
+  padding: 0 28px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 800;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.bb__restart:active {
+  transform: scale(0.95);
+}
+
+.bb__tray {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.bb__slot {
+  min-height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 3px solid transparent;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.bb__slot:disabled {
+  background: transparent;
+  box-shadow: none;
+  border: 3px dashed #d9d3cc;
+  cursor: default;
+}
+
+.bb__slot.is-selected {
+  border-color: var(--accent);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 8px 18px rgba(255, 138, 61, 0.35);
+}
+
+.bb__slot.is-blocked {
+  opacity: 0.4;
+}
+
+.bb__slot:focus-visible,
+.bb__restart:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+.bb__piece {
+  display: grid;
+  gap: 3px;
+}
+
+.bb__block {
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* Större bitar när det finns plats, t.ex. på surfplatta */
+@media (min-width: 440px) {
+  .bb { --mini: 22px; }
+}
+
+/* På bredare skärmar: så stort bräde som möjligt, men begränsat av
+   skärmhöjden så att brädet och bitarna syns samtidigt utan att scrolla.
+   540px ≈ höjden på allt annat (topprad, meny, poäng, meddelande, bitar). */
+@media (min-width: 600px) {
+  .bb { --mini: 26px; }
+  .bb__slot { min-height: 140px; }
+  .bb__board-wrap {
+    width: min(100%, max(320px, 100dvh - 540px));
+    margin: 0 auto;
+  }
+}
+
+/* Lava på bredare skärmar: brädet (6×7, högre än brett) begränsas av
+   skärmhöjden så att pilknapparna syns utan att scrolla.
+   610px ≈ höjden på allt annat (topprad, meny, info, meddelande, knappar). */
+@media (min-width: 600px) {
+  .lava__board {
+    max-width: max(320px, (100dvh - 610px) * 6 / 7);
+  }
 }
