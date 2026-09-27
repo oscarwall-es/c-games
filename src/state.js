@@ -5,7 +5,7 @@ export const STATE_CHANGED = 'cgames:state-changed';
 
 function createDefaultState() {
   return {
-    coins: 20,
+    coins: 30,
     avatar: { hair: null, top: null, hat: null, glasses: null, accessory: null },
     inventory: [],
     highscores: { lava: 0, blockBlast: 0, perfectHit: 0, cOrd: 0 },

@@ -191,11 +191,6 @@ body {
   font-size: 0.5em;
 }
 
-.avatar__hair {
-  top: 20%;
-  font-size: 0.55em;
-}
-
 .avatar__glasses {
   top: 46%;
   font-size: 0.42em;
@@ -255,4 +250,124 @@ body {
   font-size: 1.15rem;
   font-weight: 800;
   text-align: center;
+}
+
+/* Shop */
+.shop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Flytande meddelande längst ner, t.ex. "Inte nog med C Coins" */
+.shop__message {
+  position: fixed;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 10;
+  width: min(448px, calc(100% - 32px));
+  margin: 0;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: #ffe1e1;
+  color: #b3261e;
+  box-shadow: 0 6px 20px rgba(120, 30, 30, 0.25);
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.shop__message.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.shop__heading {
+  align-self: flex-start;
+  margin: 8px 0 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.shop__grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.shop-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 3px solid transparent;
+}
+
+.shop-card.is-equipped {
+  border-color: #6cc070;
+}
+
+.shop-card__emoji {
+  font-size: 2.6rem;
+  line-height: 1.1;
+}
+
+.shop-card__name {
+  font-weight: 800;
+  text-align: center;
+}
+
+.shop-card__price {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.shop-card__btn,
+.shop-card__status {
+  margin-top: 6px;
+  width: 100%;
+  min-height: 44px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shop-card__btn {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.1s ease;
+}
+
+.shop-card__btn:active {
+  transform: scale(0.95);
+}
+
+.shop-card__btn:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+.shop-card__btn--equip {
+  background: #4a90d9;
+}
+
+.shop-card__status {
+  color: #2e7d32;
 }

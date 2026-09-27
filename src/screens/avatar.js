@@ -1,8 +1,9 @@
 import { getItem } from '../items.js';
 
 // Lagerordning nerifrån och upp. Varje lager får klassen avatar__<slot>
-// så att placeringen styrs helt från CSS.
-const LAYERS = ['top', 'hair', 'glasses', 'hat', 'accessory'];
+// så att placeringen styrs helt från CSS. Hår-emojin är ett helt huvud
+// och läggs därför i full storlek rakt ovanpå bas-figuren.
+const LAYERS = ['hair', 'top', 'glasses', 'hat', 'accessory'];
 const BASE_EMOJI = '🧑';
 
 export function renderAvatar(avatar) {
