@@ -4,7 +4,12 @@ import { getItem } from '../items.js';
 // så att placeringen styrs helt från CSS. Hår-emojin är ett helt huvud
 // och läggs därför i full storlek rakt ovanpå bas-figuren.
 const LAYERS = ['hair', 'top', 'glasses', 'hat', 'accessory'];
-const BASE_EMOJI = '🧑';
+export const BASE_EMOJI = '🧑';
+
+// Ansiktet som används som spelpjäs i minispelen: utrustat hår, annars bas-figuren.
+export function getAvatarFace(avatar) {
+  return getItem(avatar.hair)?.emoji ?? BASE_EMOJI;
+}
 
 export function renderAvatar(avatar) {
   const el = document.createElement('div');

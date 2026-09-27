@@ -60,6 +60,15 @@ export function spendCoins(amount) {
   return true;
 }
 
+// Sparar ett nytt rekord för ett minispel om det slår det gamla.
+// Returnerar true om det blev nytt rekord.
+export function setHighscore(game, score) {
+  if (score <= (state.highscores[game] ?? 0)) return false;
+  state.highscores[game] = score;
+  saveState();
+  return true;
+}
+
 export function ownsItem(itemId) {
   return state.inventory.includes(itemId);
 }

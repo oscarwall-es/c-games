@@ -371,3 +371,129 @@ body {
 .shop-card__status {
   color: #2e7d32;
 }
+
+/* Lava */
+.lava {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lava__info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.lava__record {
+  color: #b7791f;
+}
+
+.lava__message {
+  margin: 0;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--card);
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.lava__message--bad {
+  background: #ffe1e1;
+  color: #b3261e;
+}
+
+.lava__message--good {
+  background: #dff5e1;
+  color: #2e7d32;
+}
+
+.lava__board {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  gap: 6px;
+}
+
+.lava__cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--card);
+  box-shadow: var(--shadow-press);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.lava__cell--lava {
+  background: #3b2320;
+}
+
+.lava__cell--goal {
+  background: #7ed283;
+}
+
+.lava__cell--player {
+  background: #ffe6a8;
+  box-shadow: 0 0 0 3px var(--accent);
+}
+
+/* Pilknappar i kors: upp överst, vänster/ner/höger under */
+.lava__controls {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  grid-template-areas:
+    '. up .'
+    'left down right';
+  gap: 8px;
+}
+
+.lava__arrow--up { grid-area: up; }
+.lava__arrow--left { grid-area: left; }
+.lava__arrow--down { grid-area: down; }
+.lava__arrow--right { grid-area: right; }
+
+.lava__arrow,
+.lava__restart {
+  border: none;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.1s ease;
+}
+
+.lava__arrow {
+  height: 64px;
+  font-size: 1.8rem;
+}
+
+.lava__restart {
+  min-height: 52px;
+  padding: 0 24px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.lava__arrow:active,
+.lava__restart:active {
+  transform: scale(0.94);
+}
+
+.lava__arrow:focus-visible,
+.lava__restart:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}

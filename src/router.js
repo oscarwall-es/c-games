@@ -1,8 +1,11 @@
 // Hash-router: visar skärmen som matchar window.location.hash (t.ex. #lava)
 // i innehållsområdet och markerar aktiv menyknapp. Okända hashar går till DEFAULT_ROUTE.
+// En skärm kan returnera en städfunktion som körs när man lämnar den
+// (t.ex. för att ta bort tangentbordslyssnare och timers).
 const DEFAULT_ROUTE = 'hem';
 const routes = {};
 let container = null;
+let cleanupCurrent = null;
 
 export function registerRoute(name, render) {
   routes[name] = render;
@@ -36,6 +39,8 @@ function renderCurrent() {
     btn.setAttribute('aria-current', active ? 'page' : 'false');
   });
 
+  cleanupCurrent?.();
   container.innerHTML = '';
-  routes[name](container);
+  const cleanup = routes[name](container);
+  cleanupCurrent = typeof cleanup === 'function' ? cleanup : null;
 }
