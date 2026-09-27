@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffb347" />
+    <title>C Games</title>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <header class="topbar">
+        <h1 class="topbar__title">🎮 C Games</h1>
+        <div class="coins" aria-label="Mynt">🌙 <span id="coin-count">0</span></div>
+      </header>
+
+      <nav class="menu" aria-label="Meny">
+        <button class="menu__btn" data-route="home">🏠 Hem</button>
+        <button class="menu__btn" data-route="lava">🌋 Lava</button>
+        <button class="menu__btn" data-route="blockblast">🧱 Block Blast</button>
+        <button class="menu__btn" data-route="perfecthit">🎯 Perfect Hit</button>
+        <button class="menu__btn" data-route="cord">🔤 C-Ord</button>
+        <button class="menu__btn menu__btn--wide" data-route="shop">🛍️ Shop</button>
+      </nav>
+
+      <main id="screen" class="screen">
+        <p class="placeholder">Välj ett spel!</p>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
