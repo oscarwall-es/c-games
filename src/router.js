@@ -43,4 +43,6 @@ function renderCurrent() {
   container.innerHTML = '';
   const cleanup = routes[name](container);
   cleanupCurrent = typeof cleanup === 'function' ? cleanup : null;
+  // Mjuk in-tonande övergång (se .screen-enter i style.css)
+  container.firstElementChild?.classList.add('screen-enter');
 }

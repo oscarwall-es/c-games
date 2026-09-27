@@ -9,10 +9,23 @@ import { renderPerfectHit } from './screens/perfectHit.js';
 import { renderCOrd } from './screens/cOrd.js';
 
 const coinEl = document.querySelector('#coin-count');
-const renderCoins = () => (coinEl.textContent = getState().coins);
+const coinPill = document.querySelector('.coins');
+let shownCoins = getState().coins;
+coinEl.textContent = shownCoins;
 
-renderCoins();
-window.addEventListener(STATE_CHANGED, renderCoins);
+// Uppdatera mynträknaren och låt den "puttra till" när mynt läggs till.
+window.addEventListener(STATE_CHANGED, () => {
+  const { coins } = getState();
+  if (coins === shownCoins) return;
+  if (coins > shownCoins) {
+    coinPill.classList.remove('is-bumping');
+    void coinPill.offsetWidth; // Starta om animationen
+    coinPill.classList.add('is-bumping');
+  }
+  shownCoins = coins;
+  coinEl.textContent = coins;
+});
+coinPill.addEventListener('animationend', () => coinPill.classList.remove('is-bumping'));
 
 registerRoute('hem', renderHome);
 registerRoute('lava', renderLava);
