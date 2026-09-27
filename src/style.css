@@ -535,11 +535,13 @@ body {
   -webkit-user-select: none;
 }
 
-.bb--blue { background: #4a90d9; }
-.bb--green { background: #52b863; }
-.bb--yellow { background: #f2c230; }
-.bb--purple { background: #9b6bd6; }
-.bb--red { background: #e5534b; }
+/* Färgklasserna sätter bara en variabel; ifyllda rutor och bitarna läser den.
+   (En direkt bakgrund här skrevs över av .bb__cell längre ner.) */
+.bb--blue { --piece: #4a90d9; }
+.bb--green { --piece: #52b863; }
+.bb--yellow { --piece: #f2c230; }
+.bb--purple { --piece: #9b6bd6; }
+.bb--red { --piece: #e5534b; }
 
 .bb__info {
   display: flex;
@@ -606,6 +608,7 @@ body {
 }
 
 .bb__cell--filled {
+  background: var(--piece);
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
 }
 
@@ -718,6 +721,7 @@ body {
 }
 
 .bb__block {
+  background: var(--piece);
   border-radius: 4px;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
 }
